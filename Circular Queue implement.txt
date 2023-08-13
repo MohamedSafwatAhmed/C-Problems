@@ -1,0 +1,123 @@
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <conio.h>
+#define Data_Type int
+#define Max_Size  5
+typedef struct {
+int front;
+int rear;
+Data_Type Elemnts[Max_Size];
+}Queue;
+/**********************************************************************
+=========================Function_Prototypes===========================
+**********************************************************************/
+void Init(Queue *Queue_Address);
+char Queue_IsFull(Queue *Queue_Address);
+char Queue_IsEmpty(Queue *Queue_Address);
+char Enqueue(Data_Type,Queue *Queue_Address);
+char Dequeue(Data_Type *,Queue *Queue_Address);
+char QueueSize(Queue *Queue_Address);
+void ClearQueue(Queue *Queue_Address);
+int main (void)
+{
+   Queue queue;
+   Queue *Queue_Address=&queue;
+   Init(Queue_Address);
+   Enqueue(5,Queue_Address);
+   Enqueue(5,Queue_Address);
+   Enqueue(5,Queue_Address);
+   Enqueue(5,Queue_Address);
+   printf("%d",QueueSize(Queue_Address));
+
+return 0;
+}
+/**********************************************************************
+=========================Functions_Definitions=========================
+**********************************************************************/
+void Init(Queue *Queue_Address)
+{
+ Queue_Address->front=-1;
+ Queue_Address->rear=-1;
+
+}
+/*================================================================*/
+char Queue_IsFull(Queue *Queue_Address)
+{
+    if((Queue_Address->rear+1)%Max_Size==Queue_Address->front)
+        return 1;
+    else
+        return 0;
+
+}
+/*================================================================*/
+char Queue_IsEmpty(Queue *Queue_Address)
+{
+    if((Queue_Address->front==-1)&&(Queue_Address->rear==-1))
+        return 1;
+    else
+        return 0;
+}
+/*================================================================*/
+char Enqueue(Data_Type Data,Queue *Queue_Address)
+{
+    if((Queue_Address->rear+1)%Max_Size==Queue_Address->front)
+    {
+       return 0;
+    }
+    else if((Queue_Address->front==-1)&&(Queue_Address->rear)==-1)
+    {
+        Queue_Address->front=0;
+        Queue_Address->rear=0;
+    }
+    else
+    {
+        Queue_Address->rear=(Queue_Address->rear+1)%Max_Size;
+    }
+        Queue_Address->Elemnts[Queue_Address->rear]=Data;
+        return 1;
+
+}
+/*================================================================*/
+char Dequeue(Data_Type *Data_Address,Queue *Queue_Address)
+{
+    if((Queue_Address->front==-1)&&(Queue_Address->rear==-1)) //Queue is empty
+    {
+        return 0;
+    }
+    *Data_Address=Queue_Address->Elemnts[Queue_Address->front];
+    if((Queue_Address->rear)==(Queue_Address->front))
+    {
+        Queue_Address->front=-1;
+        Queue_Address->rear=-1;
+    }
+    else
+        Queue_Address->front=(Queue_Address->front+1)%Max_Size;
+    return 1;
+
+}
+/*================================================================*/
+char QueueSize(Queue *Queue_Address)
+{
+    if((Queue_Address->front==-1)&&(Queue_Address->rear==-1))
+    {
+        return 0;
+    }
+    else if ((Queue_Address->front) < (Queue_Address->rear))
+    {
+        return ((Queue_Address->rear)-(Queue_Address->front)+1);
+    }
+    else if((Queue_Address->rear) < (Queue_Address->front))
+    {
+        return ( (Max_Size-Queue_Address->front)+(Queue_Address->rear)+1);
+    }
+    else
+        return 1;
+}
+/*================================================================*/
+void ClearQueue(Queue *Queue_Address)
+{
+    Queue_Address->front=-1;
+    Queue_Address->rear=-1;
+}

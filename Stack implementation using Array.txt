@@ -1,0 +1,82 @@
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <conio.h>
+#define Max_Size 10
+#define Data_Type  char
+typedef struct{
+int top;
+Data_Type element[Max_Size];
+}stack;
+stack Stack;
+stack *stackptr=&Stack;
+void Init(stack *stackPtr);
+int IsFull(stack *stackPtr);
+int IsEmpty(stack *stackPtr);
+int Push(Data_Type Data_Push,stack *stackPtr);
+int Pop(Data_Type *Data_Pop,stack *stackPtr);
+int StackSize(stack *stackPtr);
+void ClearStack(stack *stackPtr);
+
+int main (void)
+{
+    char *Data;
+    Init(stackptr);
+    Push(10,stackptr);
+    Pop(&Data,stackptr);
+    printf("%d",StackSize(stackptr));
+    printf("\n%d",Data);
+    return 0;
+}
+void Init(stack *stackPtr)
+{
+ stackptr->top=-1;
+}
+int IsFull(stack *stackPtr)
+{
+    if(stackPtr->top==Max_Size-1)
+        return 1;
+    else
+        return 0;
+}
+int IsEmpty(stack *stackPtr)
+{
+    if(stackPtr->top==-1)
+        return 1;
+    else
+        return 0;
+}
+int Push(Data_Type Data_Push,stack *stackPtr)
+{
+    if(stackPtr->top ==Max_Size-1 ) //Stack is full
+        return 0;
+    else
+    {
+     stackPtr->top ++;
+     stackPtr->element[stackptr->top]=Data_Push; //Access Element in stack
+     return 1;
+    }
+}
+int Pop(Data_Type *Data_Pop,stack *stackPtr)
+{
+    if(stackPtr->top==-1)
+        return 0;
+    else
+        *Data_Pop=stackPtr->element[stackPtr->top]; //Store Data
+        stackPtr->top--;
+        return 1;
+}
+int StackSize(stack *stackPtr)
+{
+    if(stackPtr->top==-1)
+        return 0;
+    else
+    {
+      return ((stackPtr->top) +1);
+    }
+}
+void ClearStack(stack *stackPtr)
+{
+    stackPtr->top=-1;
+}
